@@ -29,6 +29,8 @@ export class CalculatorComponent implements OnInit {
   /***HANDLE ROMAN NUMERAL INPUTS***/
   public numberInput(input:string){
     let previousInput = this.inputHistory[this.inputHistory.length-1];
+    if(this.mainDisplay === 'ERROR')
+      this.allClear();
     if(this.operators.includes(previousInput) || previousInput === '='){
       this.mainDisplay = input;
     }
@@ -45,6 +47,9 @@ export class CalculatorComponent implements OnInit {
     if(this.mainDisplay === '' || this.operators.includes(previousInput)){
       return;
     }
+    //Reset calculator if error and user tries to input key
+    if(this.mainDisplay === 'ERROR')
+      this.allClear();
     //handle 2nd operand and (continuous) solutions
     else if((this.op1 != '' && this.operator != '')){
       if(previousInput === '='){//equal sign used to calculate expression
@@ -55,7 +60,7 @@ export class CalculatorComponent implements OnInit {
         this.op2 = this.mainDisplay;
         this.subDisplay += this.op2 + input;
         this.answer = this.solveEquation(this.op1, this.op2, this.operator);
-        this.mainDisplay = this.intToRoman(parseInt(this.answer))  + ' (' + this.answer + ')';
+        this.mainDisplay = parseInt(this.answer) > 0? this.intToRoman(parseInt(this.answer))  + ' (' + this.answer + ')' : 'ERROR';
         this.op1 = this.intToRoman(parseInt(this.answer));
 
         if(this.operators.includes(input))//operand used to calculate expression
