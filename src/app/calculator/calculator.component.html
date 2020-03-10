@@ -7,19 +7,19 @@
     <!--BUTTONS-->
     <!--I V X L C D M + - x / = C AC-->
     <div class="keypad">
-        <div class="button M block" (click)="numberInput('M')">M (1000)</div>
+        <div class="button M block" (click)="inputKey('M')">M (1000)</div>
         <div class="button allClear block" (click)="allClear()">AC</div>
-        <div class="button D block" (click)="numberInput('D')">D (500)</div>
+        <div class="button D block" (click)="inputKey('D')">D (500)</div>
         <div class="button clear block" (click)="clear()">C</div>
-        <div class="button C block" (click)="numberInput('C')">C (100)</div>
-        <div class="button divide block" (click)="operatorInput('/')">/</div>
-        <div class="button L block" (click)="numberInput('L')">L (50)</div>
-        <div class="button mult block" (click)="operatorInput('*')">&times;</div>
-        <div class="button X block" (click)="numberInput('X')">X (10)</div>
-        <div class="button sub block" (click)="operatorInput('-')">-</div>
-        <div class="button V block" (click)="numberInput('V')">V (5)</div>
-        <div class="button add block" (click)="operatorInput('+')">+</div>
-        <div class="button I block" (click)="numberInput('I')">I (1)</div>
-        <div class="button equals block" (click)="operatorInput('=')">=</div>
+        <div class="button C block" (click)="inputKey('C')">C (100)</div>
+        <div class="button divide block" (click)="inputKey('/')">/</div>
+        <div class="button L block" (click)="inputKey('L')">L (50)</div>
+        <div class="button mult block" (click)="inputKey('*')">&times;</div>
+        <div class="button X block" (click)="inputKey('X')">X (10)</div>
+        <div class="button sub block" (click)="inputKey('-')">-</div>
+        <div class="button V block" (click)="inputKey('V')">V (5)</div>
+        <div class="button add block" (click)="inputKey('+')">+</div>
+        <div class="button I block" (click)="inputKey('I')">I (1)</div>
+        <div class="button equals block" (click)="inputKey('=')">=</div>
     </div>
 </div>

@@ -17,7 +17,7 @@ export class CalculatorComponent implements OnInit {
   operator = '';
   answer = '';
   inputHistory = [];
-  operators:ReadonlyArray<string> = ['+', '-', '*', '/'];
+  operators:ReadonlyArray<string> = ['+', '-', '*', '/', '='];
 
   constructor() {
 
@@ -26,55 +26,48 @@ export class CalculatorComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  /***HANDLE ROMAN NUMERAL INPUTS***/
-  public numberInput(input:string){
-    let previousInput = this.inputHistory[this.inputHistory.length-1];
-    if(this.mainDisplay === 'ERROR')
-      this.allClear();
-    if(this.operators.includes(previousInput) || previousInput === '='){
-      this.mainDisplay = input;
-    }
-    else{
-      this.mainDisplay += input;
-    }
+  public inputKey(input:string){
+    let previousInput = this.inputHistory[this.inputHistory.length -1];
     this.inputHistory.push(input);
-  }
 
-  /***HANDLE OPERATOR AND EQUAL SIGN INPUTS***/
-  public operatorInput(input:string){
-    let previousInput = this.inputHistory[this.inputHistory.length-1];
-    //no input or two operator inputs in a row
-    if(this.mainDisplay === '' || this.operators.includes(previousInput)){
+    if(!this.operators.includes(input) && this.operator === ''){//op1
+      this.op1 += input;
+      this.mainDisplay += input;
       return;
     }
-    //Reset calculator if error and user tries to input key
-    if(this.mainDisplay === 'ERROR')
-      this.allClear();
-    //handle 2nd operand and (continuous) solutions
-    else if((this.op1 != '' && this.operator != '')){
-      if(previousInput === '='){//equal sign used to calculate expression
-        this.operator = input;
-        this.subDisplay = this.intToRoman(parseInt(this.answer)) + input;
-      }
-      else{
-        this.op2 = this.mainDisplay;
-        this.subDisplay += this.op2 + input;
-        this.answer = this.solveEquation(this.op1, this.op2, this.operator);
-        this.mainDisplay = parseInt(this.answer) > 0? this.intToRoman(parseInt(this.answer))  + ' (' + this.answer + ')' : 'ERROR';
-        this.op1 = this.intToRoman(parseInt(this.answer));
 
-        if(this.operators.includes(input))//operand used to calculate expression
-          this.operator = input;
-      }
-    }
-    //handle 1st operand and operator
-    else if(this.op1 === '' && this.operator === ''){
-      this.op1 = this.mainDisplay;
+    if(this.operators.includes(input) && this.operator === '' && this.mainDisplay != ''){//operator
       this.operator = input;
-      this.subDisplay += this.op1;
-      this.subDisplay += this.operator;
+      if(previousInput === '=')
+        this.subDisplay = this.intToRoman(parseInt(this.answer)) + input;
+      else
+        this.subDisplay += this.op1 + input;
+      return;
     }
-    this.inputHistory.push(input);
+
+    if(!this.operators.includes(input) && this.operator != ''){//op2
+      if(this.op2 === '')
+        this.mainDisplay = input;
+      else
+        this.mainDisplay += input;
+      this.op2 += input;
+      return;
+    }
+
+    if(this.operators.includes(input) && this.op2 != ''){//answer
+      this.answer = this.solveEquation(this.op1, this.op2, this.operator);
+
+      if(input === '=')
+        this.operator = '';
+      else{
+        this.operator = input;
+      }
+      this.mainDisplay = this.intToRoman(parseInt(this.answer)) + ' (' + parseInt(this.answer) + ')';
+      this.subDisplay += this.op2 + input;
+      this.op1 = this.intToRoman(parseInt(this.answer));
+      this.op2 = '';
+      return;
+    }
   }
 
   /***SOLVE THE EXPRESSION***/
@@ -84,7 +77,7 @@ export class CalculatorComponent implements OnInit {
 
   /***CLEAR ONE STEP BACK***/
   public clear(){
-
+    let previousInput = this.inputHistory[this.inputHistory.length -1];
   }
 
   /***CLEAR EVERYTHING***/
