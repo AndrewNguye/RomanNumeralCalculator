@@ -1,80 +1,86 @@
-.container{
+@font-face {
+    font-family: "Trajan Pro";
+    src: url("//db.onlinewebfonts.com/t/12d2fa3dcf227b9538084a6bcfeafcf0.eot");
+    src: url("//db.onlinewebfonts.com/t/12d2fa3dcf227b9538084a6bcfeafcf0.eot?#iefix") format("embedded-opentype"), url("//db.onlinewebfonts.com/t/12d2fa3dcf227b9538084a6bcfeafcf0.woff2") format("woff2"), url("//db.onlinewebfonts.com/t/12d2fa3dcf227b9538084a6bcfeafcf0.woff") format("woff"), url("//db.onlinewebfonts.com/t/12d2fa3dcf227b9538084a6bcfeafcf0.ttf") format("truetype"), url("//db.onlinewebfonts.com/t/12d2fa3dcf227b9538084a6bcfeafcf0.svg#Trajan Pro") format("svg");
+}
+
+.container {
     height: 20vh;
     width: 100vw;
 }
 
-.display{
+.display {
     width: 61.25%;
     background-color: whitesmoke;
     font-weight: 700;
-    height:calc(100%/3);
+    height: calc(100%/3);
     padding: 5% !important;
     font-size: 3rem;
     text-align: right;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: "Trajan Pro";
     overflow: auto;
-    color:black;
+    color: black;
 }
 
-.history{
+.history {
     height: 25%;
     border-bottom: 1px solid grey;
     font-size: 1rem;
     overflow: auto;
-    color:black;
+    color: black;
 }
 
-.keypad{
-    height:calc(200%/3);
-    font-weight: 700;
+.keypad {
+    height: calc(200%/3);
 }
 
-.button{
-    width:25%;
+.button {
+    width: 25%;
     background-color: white;
     color: black;
-    margin:0;
+    margin: 0;
     padding: 5%;
     font-size: 1rem;
     text-align: center;
     cursor: pointer;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: "Trajan Pro";
+    font-weight: 700;
     border: solid darkgrey 1px;
 }
-.button:hover{
+
+.button:hover {
     opacity: 0.7;
     background-color: grey;
 }
 
-.block{
+.block {
     display: inline-block;
 }
 
-.clear{
+.clear {
     background-color: lightblue;
 }
 
-.allClear{
+.allClear {
     background-color: lightblue;
 }
 
-.divide{
+.divide {
     background-color: rgba(211, 211, 211, 0.479);
 }
 
-.mult{
+.mult {
     background-color: rgba(211, 211, 211, 0.479);
 }
 
-.sub{
+.sub {
     background-color: rgba(211, 211, 211, 0.479);
 }
 
-.add{
+.add {
     background-color: rgba(211, 211, 211, 0.479);
 }
 
-.equals{
+.equals {
     background-color: lightblue;
 }
-

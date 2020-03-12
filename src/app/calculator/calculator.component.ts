@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ɵCompiler_compileModuleAndAllComponentsAsync__POST_R3__ } from '@angular/core';
 import { HttpClient } from '@angular/common/http'
 import { ThrowStmt } from '@angular/compiler';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { THIS_EXPR, IfStmt } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-calculator',
@@ -20,52 +20,65 @@ export class CalculatorComponent implements OnInit {
   operators:ReadonlyArray<string> = ['+', '-', '*', '/', '='];
 
   constructor() {
-
    }
   
   ngOnInit(): void {
   }
 
+  /***HANDLE INPUTS***/
   public inputKey(input:string){
     let previousInput = this.inputHistory[this.inputHistory.length -1];
-    this.inputHistory.push(input);
 
-    if(!this.operators.includes(input) && this.operator === ''){//op1
+    if(!this.operators.includes(input) && this.operator === ''){//HANDLE OPERATOR1 INPUT
+      if(previousInput === '='){//if equation is solved and a new number is input clear the calculator and start new equation
+        this.allClear();
+        this.mainDisplay = input;
+      }
+      else
+        this.mainDisplay += input;
       this.op1 += input;
-      this.mainDisplay += input;
+      this.inputHistory.push(input);
+      console.log('OP1 = ' + this.op1 + ' OPERATOR = ' + this.operator + ' OP2 = ' + this.op2);
       return;
     }
 
-    if(this.operators.includes(input) && this.operator === '' && this.mainDisplay != ''){//operator
+    if(this.operators.includes(input) && this.operator === '' && this.mainDisplay != ''){//HANDLE OPERATOR INPUT
+      if(input === '=')
+        return;
       this.operator = input;
       if(previousInput === '=')
         this.subDisplay = this.intToRoman(parseInt(this.answer)) + input;
       else
         this.subDisplay += this.op1 + input;
+      this.inputHistory.push(input);
+      console.log('OP1 = ' + this.op1 + ' OPERATOR = ' + this.operator + ' OP2 = ' + this.op2);
       return;
     }
 
-    if(!this.operators.includes(input) && this.operator != ''){//op2
+    if(!this.operators.includes(input) && this.operator != ''){//HANDLE OPERATOR2 INPUT
       if(this.op2 === '')
         this.mainDisplay = input;
       else
         this.mainDisplay += input;
       this.op2 += input;
+      this.inputHistory.push(input);
+      console.log('OP1 = ' + this.op1 + ' OPERATOR = ' + this.operator + ' OP2 = ' + this.op2);
       return;
     }
 
-    if(this.operators.includes(input) && this.op2 != ''){//answer
+    if(this.operators.includes(input) && this.operator != '' && this.op2 != ''){//PRODUCE ANSWER
       this.answer = this.solveEquation(this.op1, this.op2, this.operator);
-
       if(input === '=')
         this.operator = '';
       else{
         this.operator = input;
       }
-      this.mainDisplay = this.intToRoman(parseInt(this.answer)) + ' (' + parseInt(this.answer) + ')';
-      this.subDisplay += this.op2 + input;
+      this.mainDisplay = parseInt(this.answer) > 0? this.intToRoman(parseInt(this.answer)) + ' (' + parseInt(this.answer) + ')'
+      :'ERROR ANSWER MUST BE A NATURAL NUMBER';
       this.op1 = this.intToRoman(parseInt(this.answer));
       this.op2 = '';
+      this.inputHistory.push(input);
+      console.log('OP1 = ' + this.op1 + ' OPERATOR = ' + this.operator + ' OP2 = ' + this.op2);
       return;
     }
   }
@@ -78,6 +91,17 @@ export class CalculatorComponent implements OnInit {
   /***CLEAR ONE STEP BACK***/
   public clear(){
     let previousInput = this.inputHistory[this.inputHistory.length -1];
+    if((this.op1 != '' || this.operator === '') && this.op2 === '' || previousInput === '='){
+      this.allClear();
+      return;
+    }
+
+    if(this.op1 != '' && this.operator != '' && this.op2 != ''){
+      this.op2 = '';
+      this.mainDisplay = '';
+      let indexOfOperator = this.inputHistory.indexOf(this.operator) + 1;
+      this.inputHistory.splice(indexOfOperator);//delete input history that occured after the operator
+    }
   }
 
   /***CLEAR EVERYTHING***/
@@ -104,19 +128,19 @@ export class CalculatorComponent implements OnInit {
           numValue += previousNum === 'I'? 3:5;
           break;
         case 'X':
-          numValue += previousNum === 'I'? 9:10;
+          numValue += previousNum === 'I'? 8:10;
           break;
         case 'L':
-          numValue += previousNum === 'X'? 40:50;
+          numValue += previousNum === 'X'? 30:50;
           break;
         case 'C':
-          numValue += previousNum === 'X'? 90:100;
+          numValue += previousNum === 'X'? 80:100;
           break;
         case 'D':
-          numValue += previousNum === 'C'? 400:500;
+          numValue += previousNum === 'C'? 300:500;
           break;
         case 'M':
-          numValue += previousNum === 'C'? 900:1000;
+          numValue += previousNum === 'C'? 800:1000;
           break;
       }
       previousNum = num[i];
