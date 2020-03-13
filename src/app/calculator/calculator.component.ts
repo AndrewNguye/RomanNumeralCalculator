@@ -68,11 +68,13 @@ export class CalculatorComponent implements OnInit {
 
     if(this.operators.includes(input) && this.operator != '' && this.op2 != ''){//PRODUCE ANSWER
       this.answer = this.solveEquation(this.op1, this.op2, this.operator);
-      if(input === '=')
+      if(input === '='){
         this.operator = '';
+      }
       else{
         this.operator = input;
       }
+      this.subDisplay += this.op2 + input;
       this.mainDisplay = parseInt(this.answer) > 0? this.intToRoman(parseInt(this.answer)) + ' (' + parseInt(this.answer) + ')'
       :'ERROR ANSWER MUST BE A NATURAL NUMBER';
       this.op1 = this.intToRoman(parseInt(this.answer));
